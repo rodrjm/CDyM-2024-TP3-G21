@@ -1,6 +1,7 @@
 #include "main.h"
 uint8_t data[5];
 void inicializacion(){
+	for (int i=0;i<5;i++) data[i]=0;
 	DDRC |= (1<<PORTC0);
 	PORTC |= (1<<PORTC0);
 	_delay_ms(18);

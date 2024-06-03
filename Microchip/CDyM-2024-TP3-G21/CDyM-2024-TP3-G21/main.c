@@ -1,10 +1,6 @@
-#include <avr/io.h>
-#define F_CPU 16000000UL
-#include <util/delay.h>
-
+#include "main.h"
 int main(void)
 {
-	
 	while (1)
 	{
 		inicializacion();
