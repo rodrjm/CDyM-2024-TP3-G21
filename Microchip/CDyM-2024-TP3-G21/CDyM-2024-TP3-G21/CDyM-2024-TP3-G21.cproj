@@ -136,10 +136,22 @@
     <Compile Include="dht11.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="rtc.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="rtc.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="serialPort.c">
