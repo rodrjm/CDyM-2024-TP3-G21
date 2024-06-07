@@ -7,4 +7,5 @@
 #include "dht11.h"
 #include "i2c.h"
 #include "rtc.h"
+#include "serialPort.h"
 #endif /* MAIN_H_ */
