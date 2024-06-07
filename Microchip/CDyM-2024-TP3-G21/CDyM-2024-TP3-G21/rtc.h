@@ -4,4 +4,5 @@ void setTime();
 void setDate();
 void getTime();
 void getDate();
+void obtenerHoraFecha();
 #endif /* RTC_H_ */
