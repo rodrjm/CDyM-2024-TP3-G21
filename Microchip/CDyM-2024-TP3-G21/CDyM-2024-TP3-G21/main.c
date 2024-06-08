@@ -24,9 +24,11 @@ int main(void)
  		if (RX_flag) {
  			if ((RX_Buffer == 's') || (RX_Buffer == 'S')) {
 				 if (estado == 0) {
+					 stop_Timer();
 					 mensajeDetenido();
 					 estado = 1;
 				 } else {
+					 init_Timer();
 					 mensajeReanudado();
 					 estado = 0;
 				 }

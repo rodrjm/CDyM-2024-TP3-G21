@@ -9,7 +9,9 @@ void init_Timer(){
 	TCCR0B = (1<<CS00)|(1<<CS01); // Configuracion del preescalador en 64
 	TIMSK0 |= (1<<OCIE0A); // Configuracion las interrupciones por comparacion
 }
-
+void stop_Timer(){
+	TCCR0B = 0;
+}
 //Interrupcion del Timer 
 ISR(TIMER0_COMPA_vect){
 	if (++cont==2000) //Al llegar a los 2 seg 

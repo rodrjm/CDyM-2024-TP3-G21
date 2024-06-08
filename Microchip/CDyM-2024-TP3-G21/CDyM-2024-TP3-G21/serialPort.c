@@ -201,23 +201,23 @@ void SerialPort_TX_DHT11(uint8_t data[]) {
 }
 
 void SerialPort_TX_RTC(uint8_t segundos, uint8_t minutos, uint8_t horas, uint8_t dia, uint8_t mes, uint8_t anio) {
-	TX_Buffer[48] = '0'+segundos/10;
-	TX_Buffer[49] = '0'+segundos%10;
+	TX_Buffer[48] = '0'+segundos/16;
+	TX_Buffer[49] = '0'+segundos%16;
 		
-	TX_Buffer[45] = '0'+minutos/10;
-	TX_Buffer[46] = '0'+minutos%10;
+	TX_Buffer[45] = '0'+minutos/16;
+	TX_Buffer[46] = '0'+minutos%16;
 		
-	TX_Buffer[42] = '0'+horas/10;
-	TX_Buffer[43] = '0'+horas%10;
+	TX_Buffer[42] = '0'+horas/16;
+	TX_Buffer[43] = '0'+horas%16;
 		
-	TX_Buffer[28] = '0'+dia/10;
-	TX_Buffer[29] = '0'+dia%10;
+	TX_Buffer[28] = '0'+dia/16;
+	TX_Buffer[29] = '0'+dia%16;
 		
-	TX_Buffer[31] = '0'+mes/10;
-	TX_Buffer[32] = '0'+mes%10;
+	TX_Buffer[31] = '0'+mes/16;
+	TX_Buffer[32] = '0'+mes%16;
 		
-	TX_Buffer[34] = '0'+anio/10;
-	TX_Buffer[35] = '0'+anio%10;
+	TX_Buffer[34] = '0'+anio/16;
+	TX_Buffer[35] = '0'+anio%16;
 		
 	SerialPort_TX_Interrupt_Enable();
 }
