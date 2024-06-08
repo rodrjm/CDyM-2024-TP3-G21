@@ -14,10 +14,11 @@ int main(void)
 	UART_init();
 	setTime();
 	setDate();
-	getTime();
-	getDate();
+// 	getTime();
+// 	getDate();
+	init_Timer();
 	sei();
-	DHT_flag=1;
+	/*DHT_flag=1;*/
 	while (1)
 	{
  		if (RX_flag) {
@@ -33,12 +34,13 @@ int main(void)
 			RX_flag = 0;
  		}
  		if (TX_flag) {
+			RTC_flag=0;
  			transmitirDatos();
  		}
  		if (DHT_flag) {
  			inicializacion();
 			obtenerTemperaturaHumedad();
-			DHT_flag=0;
+			/*DHT_flag=0;*/
  		}
  		if (RTC_flag) {
 			DHT_flag = 0;	

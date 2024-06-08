@@ -8,4 +8,5 @@
 #include "i2c.h"
 #include "rtc.h"
 #include "serialPort.h"
+#include "timer.h"
 #endif /* MAIN_H_ */
