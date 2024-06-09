@@ -16,7 +16,6 @@ void setTime() {
 	i2c_write(0x50);
 	i2c_write(0x59);
 	i2c_write(0x23);
-	//i2c_wriete(0b11110000);
 	i2c_stop(); //transmit STOP condition
 }
 
@@ -27,7 +26,6 @@ void setDate() {
 	i2c_write(0x01);
 	i2c_write(0x05);
 	i2c_write(0x24);
-	//i2c_wriete(0b11110000);
 	i2c_stop(); //transmit STOP condition
 }
 

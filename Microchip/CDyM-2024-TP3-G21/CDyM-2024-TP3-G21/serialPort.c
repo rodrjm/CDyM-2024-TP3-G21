@@ -19,7 +19,6 @@ char msg5[] = "SISTEMA REANUDADO\n\r";
 
 extern uint8_t RX_flag;
 extern uint8_t TX_flag;
-uint8_t t=0;
 
 volatile static unsigned char TXindice_lectura;
 
@@ -160,7 +159,6 @@ void SerialPort_send_int16_t(int val,unsigned int field_length)
 }
 
 // Inicialización de la UART
-
 void UART_init() {
 	SerialPort_Init(BR9600); 		// Inicializo formato 8N1 y BAUDRATE = 9600bps
 	SerialPort_TX_Enable();			// Activo el transmisor del Puerto Serie
@@ -170,9 +168,10 @@ void UART_init() {
 	SerialPort_RX_Interrupt_Enable();	// Activo Interrupción de recepcion
 }
 
+// Funciones para mostrar los mensajes en cada estado
 void mensajeDetenido() {
 	SerialPort_Send_String(msg3);   // Envío el mensaje de Bienvenida
-	SerialPort_Send_String(msg4);   // Envío el mensaje para detener el sistema
+	SerialPort_Send_String(msg4);   // Envío el mensaje para reanudar el sistema
 }
 
 void mensajeReanudado() {
@@ -180,6 +179,7 @@ void mensajeReanudado() {
 	SerialPort_Send_String(msg2);   // Envío el mensaje para detener el sistema
 }
 
+// Transmisión de datos
 void transmitirDatos() {
 	SerialPort_Send_Data(TX_Buffer[TXindice_lectura++]); // Enviar un caracter
 	if (TXindice_lectura < TX_BUFFER_LENGTH) { // Si hay mas datos en el buffer
@@ -190,6 +190,7 @@ void transmitirDatos() {
 	TX_flag = 0; // Desactivar flag de transmision
 }
 
+// Seteo de datos del DHT11
 void SerialPort_TX_DHT11(uint8_t data[]) {
 	// Seteo de los datos de la Temperatura
 	TX_Buffer[6] = '0'+data[2]/10;
@@ -200,6 +201,7 @@ void SerialPort_TX_DHT11(uint8_t data[]) {
 	TX_Buffer[18] = '0'+data[0]%10;
 }
 
+// Seteo de datos del RTC
 void SerialPort_TX_RTC(uint8_t segundos, uint8_t minutos, uint8_t horas, uint8_t dia, uint8_t mes, uint8_t anio) {
 	TX_Buffer[48] = '0'+segundos/16;
 	TX_Buffer[49] = '0'+segundos%16;
@@ -222,17 +224,16 @@ void SerialPort_TX_RTC(uint8_t segundos, uint8_t minutos, uint8_t horas, uint8_t
 	SerialPort_TX_Interrupt_Enable();
 }
 
-//Interrupción de transmisión
+// Interrupción de transmisión
 ISR(USART_UDRE_vect) {
 	if (TXindice_lectura < TX_BUFFER_LENGTH) { // Si hay datos para enviar, dejo el flag activado
  		TX_flag = 1;
  	}
 	 
-//	Deshabilitar la interrupcion de transmisión	
-	SerialPort_TX_Interrupt_Disable();
+	SerialPort_TX_Interrupt_Disable(); // Deshabilitar la interrupcion de transmisión	
 }
 
-// Rutina de Servicio de Interrupción de Byte Recibido
+// Interrupción de recepción
 ISR(USART_RX_vect){
 	RX_Buffer = SerialPort_Recive_Data();
 	RX_flag = 1;

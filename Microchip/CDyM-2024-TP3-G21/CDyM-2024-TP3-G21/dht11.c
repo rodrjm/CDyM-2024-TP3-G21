@@ -3,7 +3,7 @@
 uint8_t data[5];
 extern uint8_t RTC_flag;
 
-void inicializacion(){
+void DHT_init(){
 	for (int i=0;i<5;i++) data[i]=0;
 	DDRC |= (1<<PORTC0);
 	PORTC |= (1<<PORTC0);
