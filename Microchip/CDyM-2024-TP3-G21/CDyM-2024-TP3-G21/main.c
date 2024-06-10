@@ -14,8 +14,7 @@ int main(void)
 {
 	_delay_ms(3000); // Delay para que el sistema se cargue correctamente
 	UART_init();
-	setTime();
-	setDate();
+	RTC_init();
 	Timer_init();
 	sei();
 	while (1)
@@ -45,7 +44,7 @@ int main(void)
  		}
  		if (RTC_flag) { // Flag del RTC, que indica que debemos obtener datos del RTC	
 			obtenerHoraFecha();
-			RTC_flag = 0; // Desactivo el flag
+			//RTC_flag = 0; // Desactivo el flag
  		}
 	}
 }
