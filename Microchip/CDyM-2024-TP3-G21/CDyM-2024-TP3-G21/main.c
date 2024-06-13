@@ -35,7 +35,7 @@ int main(void)
  		}
  		if (TX_flag) { // Flag de transmisión de la UART
  			transmitirDatos();
-			 RTC_flag=0; // Desactivo el flag
+			RTC_flag=0; // Desactivo el flag
  		}
  		if (DHT_flag) { // Flag del DHT11, que indica que debemos obtener datos del sensor
  			DHT_init();
@@ -44,7 +44,6 @@ int main(void)
  		}
  		if (RTC_flag) { // Flag del RTC, que indica que debemos obtener datos del RTC	
 			obtenerHoraFecha();
-			//RTC_flag = 0; // Desactivo el flag
  		}
 	}
 }

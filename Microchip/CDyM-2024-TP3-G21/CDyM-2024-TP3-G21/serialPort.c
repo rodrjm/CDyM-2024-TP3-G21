@@ -10,17 +10,8 @@
 #define BR9600 (0x67)	// 0x67=103 configura BAUDRATE=9600@16MHz
 #define TX_BUFFER_LENGTH 52
 
-// Mensajes de bienvenida, de detención y reanudación del programa
-char msg1[] = "Bienvenido al registrador de temperatura y humedad relativa ambiente\n\r";
-char msg2[] = "Para detenerlo presione la tecla 's' o 'S'\n\r";
-char msg3[] = "SISTEMA DETENIDO\n\r";
-char msg4[] = "Para reanudarlo presione la tecla 's' o 'S'\n\r";
-char msg5[] = "SISTEMA REANUDADO\n\r";
-
 extern uint8_t RX_flag;
 extern uint8_t TX_flag;
-
-volatile static unsigned char TXindice_lectura;
 
 static char TX_Buffer [TX_BUFFER_LENGTH] = 
 	{'T','E','M','P',':',' ','0','0',' ','°','C',' ',
@@ -28,6 +19,13 @@ static char TX_Buffer [TX_BUFFER_LENGTH] =
 	'F','E','C','H','A',':',' ','0','0','/','0','0','/','0','0',' ',
 	'H','O','R','A',':','0','0',':','0','0',':','0','0','\r','\n'};
 extern char RX_Buffer;
+
+// Mensajes de bienvenida, de detención y reanudación del programa
+char msg1[] = "Bienvenido al registrador de temperatura y humedad relativa ambiente\n\r";
+char msg2[] = "Para detenerlo presione la tecla 's' o 'S'\n\r";
+char msg3[] = "SISTEMA DETENIDO\n\r";
+char msg4[] = "Para reanudarlo presione la tecla 's' o 'S'\n\r";
+char msg5[] = "SISTEMA REANUDADO\n\r";
 
 // ------ Definiciones de Funciones Públicas -------------------
 
@@ -181,55 +179,47 @@ void mensajeReanudado() {
 
 // Transmisión de datos
 void transmitirDatos() {
-	SerialPort_Send_Data(TX_Buffer[TXindice_lectura++]); // Enviar un caracter
-	if (TXindice_lectura < TX_BUFFER_LENGTH) { // Si hay mas datos en el buffer
-		SerialPort_TX_Interrupt_Enable();
-	} else {
-		TXindice_lectura = 0;
-	}
+	SerialPort_Send_String(TX_Buffer);
 	TX_flag = 0; // Desactivar flag de transmision
 }
 
 // Seteo de datos del DHT11
 void SerialPort_TX_DHT11(uint8_t data[]) {
 	// Seteo de los datos de la Temperatura
-	TX_Buffer[6] = '0'+data[2]/10;
-	TX_Buffer[7] = '0'+data[2]%10;
+	TX_Buffer[6] = '0'+data[2]/10; // Asignamos la decena de la temperatura
+	TX_Buffer[7] = '0'+data[2]%10; // Asignamos la unidad de la temperatura
 	
 	// Seteo de los datos de la Humedad
-	TX_Buffer[17] = '0'+data[0]/10;
-	TX_Buffer[18] = '0'+data[0]%10;
+	TX_Buffer[17] = '0'+data[0]/10; // Asignamos la decena de la humedad
+	TX_Buffer[18] = '0'+data[0]%10; // Asignamos la unidad de la humedad
 }
 
 // Seteo de datos del RTC
 void SerialPort_TX_RTC(uint8_t segundos, uint8_t minutos, uint8_t horas, uint8_t dia, uint8_t mes, uint8_t anio) {
-	TX_Buffer[48] = '0'+segundos/16;
-	TX_Buffer[49] = '0'+segundos%16;
+	TX_Buffer[48] = '0'+segundos/16; // Asignamos la decena de los segundos
+	TX_Buffer[49] = '0'+segundos%16; // Asignamos la unidad de los segundos
 		
-	TX_Buffer[45] = '0'+minutos/16;
-	TX_Buffer[46] = '0'+minutos%16;
+	TX_Buffer[45] = '0'+minutos/16; // Asignamos la decena de los minutos
+	TX_Buffer[46] = '0'+minutos%16; // Asignamos la unidad de los minutos
 		
-	TX_Buffer[42] = '0'+horas/16;
-	TX_Buffer[43] = '0'+horas%16;
+	TX_Buffer[42] = '0'+horas/16; // Asignamos la decena de las horas
+	TX_Buffer[43] = '0'+horas%16; // Asignamos la unidad de las horas
 		
-	TX_Buffer[28] = '0'+dia/16;
-	TX_Buffer[29] = '0'+dia%16;
+	TX_Buffer[28] = '0'+dia/16; // Asignamos la decena del día
+	TX_Buffer[29] = '0'+dia%16; // Asignamos la unidad del día
 		
-	TX_Buffer[31] = '0'+mes/16;
-	TX_Buffer[32] = '0'+mes%16;
+	TX_Buffer[31] = '0'+mes/16; // Asignamos la decena del mes
+	TX_Buffer[32] = '0'+mes%16; // Asignamos la unidad del mes
 		
-	TX_Buffer[34] = '0'+anio/16;
-	TX_Buffer[35] = '0'+anio%16;
+	TX_Buffer[34] = '0'+anio/16; // Asignamos la decena del año
+	TX_Buffer[35] = '0'+anio%16; // Asignamos la unidad del año
 		
-	SerialPort_TX_Interrupt_Enable();
+	SerialPort_TX_Interrupt_Enable(); // Generamos la interrupción para indicarle al sistema que el buffer está listo para transmitir los datos
 }
 
 // Interrupción de transmisión
 ISR(USART_UDRE_vect) {
-	if (TXindice_lectura < TX_BUFFER_LENGTH) { // Si hay datos para enviar, dejo el flag activado
- 		TX_flag = 1;
- 	}
-	 
+ 	TX_flag = 1;
 	SerialPort_TX_Interrupt_Disable(); // Deshabilitar la interrupcion de transmisión	
 }
 
