@@ -10,7 +10,8 @@
 - Ivan Sandoval 
 - Juan Manuel Rodriguez 
 
-## En el siguiente proyecto se trata de resolver un sistema, en el cuál se pueda registrar la temperatura y la humedad relativa del ambiente junto a la hora y la fecha de dicho registro
+## Descripción del Proyecto
+En el siguiente proyecto se trata de resolver un sistema, en el cuál se pueda registrar la temperatura y la humedad relativa del ambiente junto a la hora y la fecha de dicho registro
 
 ## Las tecnologías utilizados fueron 
 - placa Arduino uno
